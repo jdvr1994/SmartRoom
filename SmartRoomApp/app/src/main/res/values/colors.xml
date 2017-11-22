@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="appColor">#00bcd4</color>
+    <color name="darkBackgroundColor">#002d33</color>
+    <color name="lighterBackgroundColor">#00444d</color>
+    <color name="lighterElementColor">#005a66</color>
+    <color name="darkElementColor">#007c8c</color>
+    <color name="activeElementColor">#0092a6</color>
+    <color name="accentColor">#00e1ff</color>
+    <color name="titleColor">#00e1ff</color>
+    <color name="textColor">#a9f5ff</color>
+    <color name="textColorWhite">#ffffff</color>
+    <color name="textColorLigth">#00a2b7</color>
+    <color name="backgroundColorWhite">#ffffff</color>
+    <color name="colorSecondary_text">#757575</color>
+    <color name="progressbar_color">#00fff0</color>
+    <color name="progressbar_background_color">#2c2c2c</color>
+
+
+
+    <color name="background_alpha">#a0000000</color>
+    <color name="background_alpha_dialog">#d0000000</color>
+    <color name="background_alpha_dialog_ligth">#a0000000</color>
+    <color name="background_alpha_light">#a0000000</color>
+    <color name="background_alpha_menu_lateral">#80000000</color>
+    <color name="grisOscuro">#777777</color>
+    <color name="grisClaro">#AAAAAA</color>
+
+    <color name="white_transparent">#94ffffff</color>
+    <color name="white_transparent_ligth">#1ea8fff6</color>
+    <color name="title_caracteristica">#00BCD4</color>
+    <color name="background_alpha_fragments">#aa000000</color>
+    <color name="background_alpha_inicio">#a0000000</color>
+
+</resources>

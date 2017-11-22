@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_options">18dp</dimen>
+    <dimen name="text_options_small">12sp</dimen>
+    <dimen name="margin_options">30dp</dimen>
+    <dimen name="margin_top_options">30dp</dimen>
+    <dimen name="marginRightOptions">60dp</dimen>
+    <dimen name="radio_linea_blanca">76dp</dimen>
+    <dimen name="radio_linea_azul">80dp</dimen>
+    <dimen name="text_size_progressbar">45dp</dimen>
+    <dimen name="text_size_humedad">35dp</dimen>
+</resources>

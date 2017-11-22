@@ -1,0 +1,241 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.ing3ns.smartroomapp.Fragments.FragmentControlBasico">
+
+    <ImageView
+        android:id="@+id/fondo_inicio"
+        android:src="@mipmap/backgroundblue"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/txt_control_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="25dp"
+        android:text="Control Primario"
+        android:textAlignment="center"
+        android:textColor="@color/titleColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/sensors_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txt_control_1"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="3dp"
+        android:layout_above="@+id/tabla1"
+        android:gravity="center_vertical"
+        android:background="@color/white_transparent_ligth">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_temp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:indeterminate="false"
+                    android:max="40"
+                    android:progress="24"
+                    android:progressDrawable="@drawable/progressbar_circle"
+                    android:secondaryProgress="100"
+                    android:background="@drawable/progressbar_background_circle"
+                    android:layout_centerInParent="true"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:id="@+id/txt_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="24°"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/textColorWhite"
+                        android:textSize="@dimen/text_size_progressbar"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Temperatura"
+                        android:textColor="@color/textColorWhite"
+                        android:textSize="@dimen/text_options_small"
+                        android:layout_marginTop="-10dp"
+                        android:layout_below="@+id/txt_temp"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_humedad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="37%"
+                    android:textColor="@color/textColorWhite"
+                    android:textSize="@dimen/text_size_humedad"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/image_hum"
+                    android:layout_width="95dp"
+                    android:layout_height="90dp"
+                    android:layout_below="@+id/txt_humedad"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/humedad"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Humedad"
+                    android:textColor="@color/textColorWhite"
+                    android:textSize="@dimen/text_options_small"
+                    android:layout_below="@id/image_hum"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tabla1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/margin_options"
+        android:layout_marginTop="@dimen/margin_top_options">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_top_options">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchPadding="20dp"
+                android:text="Luz Primaria"
+                android:textColor="@color/textColorLigth"
+                android:textSize="@dimen/text_options"
+                android:textStyle="bold"
+                android:layout_marginRight="@dimen/marginRightOptions"/>
+
+            <Switch
+                android:id="@+id/switchLP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorLigth"
+                android:textOff="OFF"
+                android:textOn="ON"
+                android:layout_gravity="left"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_top_options">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luz Secundaria"
+                android:textColor="@color/textColorLigth"
+                android:textSize="@dimen/text_options"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnColorLuz"
+                android:background="@color/accentColor"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="left"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_top_options">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Persianas"
+                android:textColor="@color/textColorLigth"
+                android:textSize="@dimen/text_options"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/seekbarPersiana"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="130dp"
+                android:layout_gravity="left"
+                android:progressDrawable="@drawable/seekbar_style"
+                android:thumb="@drawable/progressbar_thumb"
+                android:max="90"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_top_options">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchPadding="20dp"
+                android:text="Puerta"
+                android:textColor="@color/textColorLigth"
+                android:textSize="@dimen/text_options"
+                android:textStyle="bold"
+                android:layout_marginRight="@dimen/marginRightOptions"/>
+            <LinearLayout>
+                <Switch
+                    android:id="@+id/switchPuerta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textOff="OFF"
+                    android:textOn="ON"
+                    android:layout_gravity="left"/>
+
+                <TextView
+                    android:id="@+id/txt_ver_registro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:text="ver Registro"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/text_options_small"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>
+
+

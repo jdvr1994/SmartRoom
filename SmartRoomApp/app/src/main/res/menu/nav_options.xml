@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_control_primario"
+            android:icon="@drawable/ic_home"
+            android:title="Control Primario" />
+
+        <item
+            android:id="@+id/menu_closet"
+            android:icon="@drawable/ic_closet"
+            android:title="Closet" />
+
+        <item
+            android:id="@+id/menu_sonido"
+            android:icon="@drawable/ic_sonido"
+            android:title="Sonido" />
+
+        <item
+            android:id="@+id/menu_pc"
+            android:icon="@drawable/ic_pc"
+            android:title="PC" />
+    </group>
+
+    <item android:id="@+id/otras_opciones"
+        android:title="Otras opciones">
+        <menu>
+            <item
+                android:id="@+id/menu_compartir"
+                android:icon="@drawable/ic_default"
+                android:title="Compartir App"/>
+        </menu>
+    </item>
+
+</menu>
