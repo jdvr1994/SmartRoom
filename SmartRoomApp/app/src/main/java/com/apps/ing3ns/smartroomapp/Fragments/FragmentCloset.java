@@ -147,7 +147,7 @@ public class FragmentCloset extends Fragment{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d("PERSIANAS","Posicion actual "+seekBar.getProgress());
+                Log.d("ANGULO PERSIANAS","Posicion actual "+seekBar.getProgress());
             }
         });
 
