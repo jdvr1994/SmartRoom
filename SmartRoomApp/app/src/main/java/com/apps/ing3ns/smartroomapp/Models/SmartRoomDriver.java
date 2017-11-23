@@ -9,17 +9,21 @@ public class SmartRoomDriver {
     String user;
     String pass;
     String token;
-    int led1;
+    ControlPrimario controlPrimario;
+    Closet closet;
+    Sonido sonido;
 
     public SmartRoomDriver() {
     }
 
-    public SmartRoomDriver(int id, String user, String pass, String token, int led1) {
+    public SmartRoomDriver(int id, String user, String pass, String token, ControlPrimario controlPrimario, Closet closet, Sonido sonido) {
         this.id = id;
         this.user = user;
         this.pass = pass;
         this.token = token;
-        this.led1 = led1;
+        this.controlPrimario = controlPrimario;
+        this.closet = closet;
+        this.sonido = sonido;
     }
 
     public int getId() {
@@ -54,11 +58,27 @@ public class SmartRoomDriver {
         this.token = token;
     }
 
-    public int getLed1() {
-        return led1;
+    public ControlPrimario getControlPrimario() {
+        return controlPrimario;
     }
 
-    public void setLed1(int led1) {
-        this.led1 = led1;
+    public void setControlPrimario(ControlPrimario controlPrimario) {
+        this.controlPrimario = controlPrimario;
+    }
+
+    public Closet getCloset() {
+        return closet;
+    }
+
+    public void setCloset(Closet closet) {
+        this.closet = closet;
+    }
+
+    public Sonido getSonido() {
+        return sonido;
+    }
+
+    public void setSonido(Sonido sonido) {
+        this.sonido = sonido;
     }
 }

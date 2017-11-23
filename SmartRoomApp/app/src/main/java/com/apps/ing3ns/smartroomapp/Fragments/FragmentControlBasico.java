@@ -24,7 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.ing3ns.smartroomapp.Listeners.ControlBasicoListener;
+import com.apps.ing3ns.smartroomapp.Models.Closet;
+import com.apps.ing3ns.smartroomapp.Models.ControlPrimario;
 import com.apps.ing3ns.smartroomapp.Models.SmartRoomDriver;
+import com.apps.ing3ns.smartroomapp.Models.Sonido;
 import com.apps.ing3ns.smartroomapp.R;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -65,6 +68,10 @@ public class FragmentControlBasico extends Fragment{
     String getToken = "getTokenDriver";
     String requestToken = "requestTokenDriver";
     String lpEmit = "lp-change";
+    String lsEmit = "ls-change";
+    String persianasEmit = "persianas-change";
+    String puertaEmit = "puerta-change";
+
 
     private Socket mSocket;
     {
@@ -109,7 +116,7 @@ public class FragmentControlBasico extends Fragment{
         bindUI(view);
 
         // ---------Inicializamos el SmartRoomDriver----------
-        driver = new SmartRoomDriver(0,"ESP8266","ing3ns2560",null,0);
+        driver = new SmartRoomDriver(0,"ESP8266","ing3ns2560","",new ControlPrimario(),new Closet(),new Sonido());
         gson = new GsonBuilder().create();
         ColorLuz = 0;
 
@@ -141,6 +148,8 @@ public class FragmentControlBasico extends Fragment{
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvTemperatura.setText(progress+"°");
                 pbTemperatura.setProgress(progress);
+                driver.getControlPrimario().setPersiana(progress);
+                mSocket.emit(persianasEmit, gson.toJson(driver));
             }
 
             @Override
@@ -157,7 +166,8 @@ public class FragmentControlBasico extends Fragment{
         puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSocket.emit(lpEmit, gson.toJson(driver));
+                driver.getControlPrimario().setPuerta(isChecked);
+                mSocket.emit(puertaEmit, gson.toJson(driver));
             }
         });
 
@@ -238,6 +248,8 @@ public class FragmentControlBasico extends Fragment{
             @Override
             public void onClick(View v) {
                 luzColor.setBackgroundColor(ColorLuz);
+                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
+                mSocket.emit(lsEmit, gson.toJson(driver));
                 alertDialog.dismiss();
             }
         });
@@ -246,6 +258,8 @@ public class FragmentControlBasico extends Fragment{
             @Override
             public void onClick(View v) {
                 luzColor.setBackgroundColor(ColorLuz);
+                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
+                mSocket.emit(lsEmit, gson.toJson(driver));
                 alertDialog.dismiss();
             }
         });
