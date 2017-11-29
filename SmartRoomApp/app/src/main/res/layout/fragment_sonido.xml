@@ -44,6 +44,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@color/white_transparent_ligth">
 
         <TableRow
@@ -51,39 +53,50 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_power"
-                android:src="@drawable/ic_power"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
+                android:src="@drawable/ic_power"
+                android:background="@drawable/button_cyan_dark_circle"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_fuction"
+            <ImageButton
+                android:id="@+id/btn_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_function"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_play"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_play"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_stop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_stop"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_pause"
-                android:src="@drawable/ic_pause"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:src="@drawable/ic_pause"
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
         </TableRow>
 
@@ -92,33 +105,42 @@
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_preview_folder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_preview_folder"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_preview"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_next"
-                android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_nextFolder"
-                android:src="@drawable/ic_next_folder"
+            <ImageButton
+                android:id="@+id/btn_next_folder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
-                android:layout_margin="@dimen/margin_botones_sonido"
-                android:background="@drawable/button_cyan_circle"/>
+                android:src="@drawable/ic_next_folder"
+                android:background="@drawable/button_cyan_circle"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
+
         </TableRow>
 
     </TableLayout>
@@ -126,7 +148,61 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/botones_principales">
+        android:layout_below="@id/botones_principales"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txt_navegacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Navegación y Volumen"
+            android:textAlignment="center"
+            android:textColor="@color/titleColor"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/layout_navegacion"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/txt_navegacion">
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/layout_navegacion"
+            android:layout_alignBottom="@id/layout_navegacion"
+            android:layout_toRightOf="@id/layout_navegacion"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
+                android:src="@drawable/ic_next_folder"
+                android:background="@drawable/button_volumen_circle"
+                android:layout_margin="@dimen/margin_botones_sonido2"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
+                android:src="@drawable/ic_next_folder"
+                android:background="@drawable/button_volumen_circle"
+                android:layout_margin="@dimen/margin_botones_sonido2"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_botones"
+                android:src="@drawable/ic_next_folder"
+                android:background="@drawable/button_volumen_circle"
+                android:layout_margin="@dimen/margin_botones_sonido2"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

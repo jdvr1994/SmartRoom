@@ -9,6 +9,8 @@
     <dimen name="radio_linea_azul">80dp</dimen>
     <dimen name="text_size_progressbar">45dp</dimen>
     <dimen name="text_size_humedad">35dp</dimen>
-    <dimen name="padding_botones">1dp</dimen>
-    <dimen name="margin_botones_sonido">5dp</dimen>
+    <dimen name="padding_botones">9dp</dimen>
+    <dimen name="margin_botones_sonido">7dp</dimen>
+    <dimen name="padding_botones2">6dp</dimen>
+    <dimen name="margin_botones_sonido2">3dp</dimen>
 </resources>
