@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="10dp"
         android:text="Sonido"
         android:textAlignment="center"
         android:textColor="@color/titleColor"
@@ -33,7 +33,7 @@
         android:text="Funciones Principales"
         android:textAlignment="center"
         android:textColor="@color/titleColor"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TableLayout
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_power"
-                android:background="@drawable/button_cyan_dark_circle"
+                android:background="@drawable/button_sonido_background"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_function"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_play"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_stop"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_pause"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
         </TableRow>
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_preview_folder"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_preview"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_next"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
             <ImageButton
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
                 android:src="@drawable/ic_next_folder"
-                android:background="@drawable/button_cyan_circle"
+                android:background="@drawable/button_sonido_background_dos"
                 android:layout_margin="@dimen/margin_botones_sonido"/>
 
         </TableRow>
@@ -146,20 +146,23 @@
     </TableLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/botones_principales"
-        android:gravity="center">
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/txt_navegacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Navegación y Volumen"
             android:textAlignment="center"
+            android:text="Navegación y Volumen"
             android:textColor="@color/titleColor"
-            android:textSize="14dp"
+            android:textSize="16dp"
+            android:layout_marginBottom="5dp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -168,42 +171,106 @@
             android:layout_height="200dp"
             android:layout_below="@id/txt_navegacion">
 
+            <ImageButton
+                android:id="@+id/btn_enter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_enter"
+                android:background="@drawable/button_cyan_dark_circle"
+                android:padding="@dimen/padding_enter"/>
+
+            <ImageButton
+                android:id="@+id/btn_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/btn_enter"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_up"
+                android:background="@drawable/button_navegacion_background" />
+
+            <ImageButton
+                android:id="@+id/btn_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_enter"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_down"
+                android:background="@drawable/button_navegacion_background" />
+
+            <ImageButton
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/btn_enter"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_left"
+                android:background="@drawable/button_navegacion_background" />
+
+            <ImageButton
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btn_enter"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_right"
+                android:background="@drawable/button_navegacion_background" />
+
+
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/layout_volumen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/layout_navegacion"
             android:layout_alignBottom="@id/layout_navegacion"
             android:layout_toRightOf="@id/layout_navegacion"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/btn_volUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
-                android:src="@drawable/ic_next_folder"
-                android:background="@drawable/button_volumen_circle"
+                android:src="@drawable/ic_vol_up"
+                android:background="@drawable/button_volumen_background"
                 android:layout_margin="@dimen/margin_botones_sonido2"/>
 
             <ImageButton
+                android:id="@+id/btn_volDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
-                android:src="@drawable/ic_next_folder"
-                android:background="@drawable/button_volumen_circle"
+                android:src="@drawable/ic_vol_down"
+                android:background="@drawable/button_volumen_background"
                 android:layout_margin="@dimen/margin_botones_sonido2"/>
 
             <ImageButton
+                android:id="@+id/btn_mute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_botones"
-                android:src="@drawable/ic_next_folder"
-                android:background="@drawable/button_volumen_circle"
+                android:src="@drawable/ic_mute"
+                android:background="@drawable/button_volumen_background"
                 android:layout_margin="@dimen/margin_botones_sonido2"/>
 
         </LinearLayout>
 
+        <SeekBar
+            android:id="@+id/seekbarVolumen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="130dp"
+            android:layout_below="@id/layout_navegacion"
+            android:layout_alignLeft="@id/layout_navegacion"
+            android:layout_alignRight="@id/layout_volumen"
+            android:progressDrawable="@drawable/seekbar_style"
+            android:thumb="@drawable/progressbar_thumb"
+            android:progress="15"
+            android:max="30"/>
+        
     </RelativeLayout>
 
 </RelativeLayout>

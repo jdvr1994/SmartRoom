@@ -13,4 +13,5 @@
     <dimen name="margin_botones_sonido">7dp</dimen>
     <dimen name="padding_botones2">6dp</dimen>
     <dimen name="margin_botones_sonido2">3dp</dimen>
+    <dimen name="padding_enter">15dp</dimen>
 </resources>
