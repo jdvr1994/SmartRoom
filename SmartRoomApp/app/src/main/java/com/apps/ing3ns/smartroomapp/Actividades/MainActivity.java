@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.apps.ing3ns.smartroomapp.Fragments.FragmentControlBasico;
+import com.apps.ing3ns.smartroomapp.Fragments.FragmentSonido;
 import com.apps.ing3ns.smartroomapp.R;
 
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     //----------------Fragments----------------------------
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentControlBasico fragmentControlBasico = new FragmentControlBasico();
+    FragmentSonido fragmentSonido = new FragmentSonido();
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_sonido:
+                setSonidoView();
                 break;
 
             case R.id.menu_pc:
@@ -146,14 +149,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void setControlBasicoView(){
         if(!fragmentControlBasico.isVisible()) {
-            Bundle args = new Bundle();
-            args.putBoolean(FragmentControlBasico.ARG_LOGEAR, false);
-            args.putBoolean(FragmentControlBasico.ARG_INTERNET, false);
-            fragmentControlBasico.setArguments(args);
+            fragmentControlBasico = FragmentControlBasico.newInstance(false,false);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_content, fragmentControlBasico,"INICIO")
+                    .replace(R.id.main_content, fragmentControlBasico)
                     .commit();
+            getSupportActionBar().setTitle(R.string.app_name);
+        }
+    }
+
+    public void setSonidoView(){
+        if(!fragmentSonido.isVisible()) {
+            fragmentSonido = FragmentSonido.newInstance(false,false);
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragmentSonido)
+                    .commit();
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 }

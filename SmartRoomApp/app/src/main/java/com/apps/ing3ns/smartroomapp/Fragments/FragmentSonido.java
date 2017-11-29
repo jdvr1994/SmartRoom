@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,18 +43,11 @@ import java.net.URISyntaxException;
  * Created by JuanDa on 21/11/2017.
  */
 
-public class FragmentControlBasico extends Fragment{
+public class FragmentSonido extends Fragment{
     public static final String ARG_LOGEAR = "logear";
     public static final String ARG_INTERNET = "internet";
 
     //Elementos de UI
-    TextView tvTemperatura;
-    TextView tvHumedad;
-    ProgressBar pbTemperatura;
-    Button luzColor;
-    Switch luzPrincipal;
-    SeekBar seekBarPersianas;
-    Switch puerta;
 
     SmartRoomDriver driver;
     Context contextActivity;
@@ -87,8 +79,8 @@ public class FragmentControlBasico extends Fragment{
     private SharedPreferences preferences;
     private ControlBasicoListener listener;
 
-    public static FragmentControlBasico newInstance(boolean logear, boolean internet) {
-        FragmentControlBasico fragment = new FragmentControlBasico();
+    public static FragmentSonido newInstance(boolean logear, boolean internet) {
+        FragmentSonido fragment = new FragmentSonido();
         Bundle args = new Bundle();
         args.putBoolean(ARG_LOGEAR, logear);
         args.putBoolean(ARG_INTERNET, internet);
@@ -96,24 +88,17 @@ public class FragmentControlBasico extends Fragment{
         return fragment;
     }
 
-    public FragmentControlBasico() {
+    public FragmentSonido() {
         // Required empty public constructor
     }
 
     public void bindUI(View view){
         // ----------Enlazamos objetos del View-------------
-        tvTemperatura = (TextView) view.findViewById(R.id.txt_temp);
-        tvHumedad = (TextView) view.findViewById(R.id.txt_humedad);
-        pbTemperatura = (ProgressBar) view.findViewById(R.id.progress_bar_temp);
-        luzPrincipal = (Switch) view.findViewById(R.id.switchLP);
-        luzColor = (Button) view.findViewById(R.id.btnColorLuz);
-        seekBarPersianas = (SeekBar) view.findViewById(R.id.seekbarPersiana);
-        puerta = (Switch) view.findViewById(R.id.switchPuerta);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_control_basico, container, false);
+        View view = inflater.inflate(R.layout.fragment_sonido, container, false);
         bindUI(view);
 
         // ---------Inicializamos el SmartRoomDriver----------
@@ -129,63 +114,6 @@ public class FragmentControlBasico extends Fragment{
         mSocket.emit(requestToken, gson.toJson(driver));
 
         //----------- Eventos de objetos del View -----------------
-        luzPrincipal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                driver.getControlPrimario().setLuzPrincipal(isChecked);
-                mSocket.emit(lpEmit, gson.toJson(driver));
-            }
-        });
-
-        luzColor.setBackgroundColor(Color.WHITE);
-        luzColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogAlertColor();
-            }
-        });
-
-        seekBarPersianas.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvTemperatura.setText(progress+"°");
-                pbTemperatura.setProgress(progress);
-                progressSeekBar = progress;
-                if(!sendSeekBar) {
-                    sendSeekBar =true;
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            driver.getControlPrimario().setPersiana(progressSeekBar);
-                            mSocket.emit(persianasEmit, gson.toJson(driver));
-                            sendSeekBar = false;
-                        }
-                    }, 50);
-                }
-
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                driver.getControlPrimario().setPersiana(progressSeekBar);
-                mSocket.emit(persianasEmit, gson.toJson(driver));
-            }
-        });
-
-        puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                driver.getControlPrimario().setPuerta(isChecked);
-                mSocket.emit(puertaEmit, gson.toJson(driver));
-            }
-        });
 
         return view;
     }
@@ -236,67 +164,6 @@ public class FragmentControlBasico extends Fragment{
 
     //--------------------Funciones Auxiliares ---------------------
     //--------------------------------------------------------------
-
-    //--------------------------DIALOG ALERT NINGUN PEDIDO DESPACHADO ---------------------
-    public void dialogAlertColor(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.CustomDialog);
-        Context context = getContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-        View vista = inflater.inflate(R.layout.dialog_color_picker, null);
-
-        builder.setView(vista);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-        Button btnAceptar = (Button) vista.findViewById(R.id.boton_aceptar_no_gps_pedido);
-        final ImageView colorActual = (ImageView) vista.findViewById(R.id.colorActual);
-        final HSLColorPicker colorPicker = (HSLColorPicker) vista.findViewById(R.id.colorPicker);
-        colorPicker.setColor(ColorLuz);
-        colorActual.getBackground().setColorFilter(ColorLuz, PorterDuff.Mode.MULTIPLY);
-
-        colorPicker.setColorSelectionListener(new SimpleColorSelectionListener() {
-            @Override
-            public void onColorSelected(int color) {
-                if (color != ColorLuz) {
-                    ColorLuz = color;
-                    colorActual.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-
-                    if (!sendColor) {
-                        sendColor = true;
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
-                                mSocket.emit(lsEmit, gson.toJson(driver));
-                                sendColor = false;
-                            }
-                        }, 50);
-                    }
-                }
-            }
-        });
-
-        btnAceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                luzColor.setBackgroundColor(ColorLuz);
-                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
-                mSocket.emit(lsEmit, gson.toJson(driver));
-                alertDialog.dismiss();
-            }
-        });
-
-        colorActual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                luzColor.setBackgroundColor(ColorLuz);
-                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
-                mSocket.emit(lsEmit, gson.toJson(driver));
-            }
-        });
-
-    }
 
     //----------------------- Recepciono mensajes ----------------------------
     private Emitter.Listener getTokenDriverListener = new Emitter.Listener() {

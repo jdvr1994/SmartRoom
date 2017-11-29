@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.ing3ns.smartroomapp.Fragments.FragmentSonido">
+
+    <ImageView
+        android:src="@mipmap/backgroundblue"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/txt_sonido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="25dp"
+        android:text="Sonido"
+        android:textAlignment="center"
+        android:textColor="@color/titleColor"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_funciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txt_sonido"
+        android:text="Funciones Principales"
+        android:textAlignment="center"
+        android:textColor="@color/titleColor"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+    <TableLayout
+        android:id="@+id/botones_principales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_funciones"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:background="@color/white_transparent_ligth">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_power"
+                android:src="@drawable/ic_power"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_fuction"
+                android:src="@drawable/ic_function"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_play"
+                android:src="@drawable/ic_play"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_stop"
+                android:src="@drawable/ic_stop"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_pause"
+                android:src="@drawable/ic_pause"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_preview_folder"
+                android:src="@drawable/ic_preview_folder"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_preview"
+                android:src="@drawable/ic_preview"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_next"
+                android:src="@drawable/ic_next"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_nextFolder"
+                android:src="@drawable/ic_next_folder"
+                android:padding="@dimen/padding_botones"
+                android:layout_margin="@dimen/margin_botones_sonido"
+                android:background="@drawable/button_cyan_circle"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/botones_principales">
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
