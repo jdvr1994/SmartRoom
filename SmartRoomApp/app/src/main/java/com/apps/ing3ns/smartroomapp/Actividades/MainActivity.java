@@ -1,4 +1,7 @@
 package com.apps.ing3ns.smartroomapp.Actividades;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -10,10 +13,17 @@ import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.apps.ing3ns.smartroomapp.Fragments.FragmentCloset;
 import com.apps.ing3ns.smartroomapp.Fragments.FragmentControlBasico;
 import com.apps.ing3ns.smartroomapp.Fragments.FragmentSonido;
 import com.apps.ing3ns.smartroomapp.R;
+import com.apps.ing3ns.smartroomapp.Services.Constants;
+import com.apps.ing3ns.smartroomapp.Services.SocketServiceProvider;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,10 +32,41 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentControlBasico fragmentControlBasico = new FragmentControlBasico();
     FragmentSonido fragmentSonido = new FragmentSonido();
+    FragmentCloset fragmentCloset = new FragmentCloset();
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Menu menuToolbar;
+
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(), "no soportado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    Toast.makeText(this,"" + result.get(0),Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) setupDrawerContent(navigationView);
         navigationView.getMenu().findItem(R.id.menu_control_primario).setChecked(true);
         setControlBasicoView();
+
     }
 
     @Override
@@ -47,6 +89,15 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
 
     //----------------------------PRESIONAR BOTON ATRAS --------------------------------
     @Override
@@ -130,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_closet:
+                setClosetView();
                 break;
 
             case R.id.menu_sonido:
@@ -137,9 +189,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_pc:
+                Intent startIntent = new Intent(MainActivity.this, SocketServiceProvider.class);
+                startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                startService(startIntent);
                 break;
 
             case R.id.menu_compartir:
+                Intent stopIntent = new Intent(MainActivity.this, SocketServiceProvider.class);
+                stopIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+                startService(stopIntent);
                 break;
 
         }
@@ -164,6 +222,17 @@ public class MainActivity extends AppCompatActivity {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.main_content, fragmentSonido)
+                    .commit();
+            getSupportActionBar().setTitle(R.string.app_name);
+        }
+    }
+
+    public void setClosetView(){
+        if(!fragmentCloset.isVisible()) {
+            fragmentCloset = FragmentCloset.newInstance(false,false);
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragmentCloset)
                     .commit();
             getSupportActionBar().setTitle(R.string.app_name);
         }

@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,16 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.apps.ing3ns.smartroomapp.Listeners.ControlBasicoListener;
 import com.apps.ing3ns.smartroomapp.Models.Closet;
 import com.apps.ing3ns.smartroomapp.Models.ControlPrimario;
 import com.apps.ing3ns.smartroomapp.Models.SmartRoomDriver;
@@ -37,20 +28,16 @@ import com.apps.ing3ns.smartroomapp.Models.Sonido;
 import com.apps.ing3ns.smartroomapp.R;
 import com.apps.ing3ns.smartroomapp.Services.Constants;
 import com.apps.ing3ns.smartroomapp.Services.SocketServiceProvider;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.madrapps.pikolo.HSLColorPicker;
 import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
 
-import java.net.URISyntaxException;
-
 /**
  * Created by JuanDa on 21/11/2017.
  */
 
-public class FragmentControlBasico extends Fragment {
+public class FragmentCloset extends Fragment {
 
     //------------------ Comunicacion con el Servicio de Web Socket------------------
     private class DataUpdateReceiver extends BroadcastReceiver {
@@ -62,10 +49,17 @@ public class FragmentControlBasico extends Fragment {
 
             if (intent.getAction().equals("syncClient")) {
                 driver = gson.fromJson(intent.getExtras().getString("data"),SmartRoomDriver.class);
-                tvTemperatura.setText(driver.getControlPrimario().getTemperatura()+"°");
-                pbTemperatura.setProgress(driver.getControlPrimario().getTemperatura());
-                tvHumedad.setText(driver.getControlPrimario().getHumedad()+"%");
-                puerta.setChecked(driver.getControlPrimario().isPuerta());
+                int co = ~driver.getCloset().getEstanteUno();
+                //FFFFFFFFFFF90028 = -458712
+                //000000000006FFD8 = 458712
+                //0000000000FAB600 = 16430592
+
+                btnEstanteUno.setBackgroundColor(driver.getCloset().getEstanteUno());
+                btnEstanteDos.setBackgroundColor(driver.getCloset().getEstanteDos());
+                btnEstanteTres.setBackgroundColor(driver.getCloset().getEstanteTres());
+                btnEstanteCuatro.setBackgroundColor(driver.getCloset().getEstanteCuatro());
+                btnPerchero.setBackgroundColor(driver.getCloset().getPerchero());
+                for(int i=0;i<5;i++) ColorLuz[i] = getColorEstante(i);
             }
         }
     }
@@ -73,110 +67,83 @@ public class FragmentControlBasico extends Fragment {
     private DataUpdateReceiver dataUpdateReceiver;
     SocketServiceProvider socketServiceProvider;
 
-    //----------------------Elementos de UI-------------------------
-    TextView tvTemperatura;
-    TextView tvHumedad;
-    ProgressBar pbTemperatura;
-    Button luzColor;
-    ImageButton luzPrincipal;
-    SeekBar seekBarPersianas;
-    Switch puerta;
+    //Elementos de UI
+    ImageButton btnEstanteUno;
+    ImageButton btnEstanteDos;
+    ImageButton btnEstanteTres;
+    ImageButton btnEstanteCuatro;
+    ImageButton btnPerchero;
 
-    //--------------------Variables de proceso----------------------
-    boolean servicesConnection = false;
+
     SmartRoomDriver driver;
     Gson gson;
-    int ColorLuz;
-    int progressSeekBar;
-    boolean sendSeekBar = false;
+    boolean servicesConnection = false;
+    int [] ColorLuz = new int[5];
     boolean sendColor = false;
 
-    public static FragmentControlBasico newInstance(boolean logear, boolean internet) {
-        FragmentControlBasico fragment = new FragmentControlBasico();
+
+    public static FragmentCloset newInstance(boolean logear, boolean internet) {
+        FragmentCloset fragment = new FragmentCloset();
         return fragment;
     }
 
-    public FragmentControlBasico() {
+    public FragmentCloset() {
         // Required empty public constructor
     }
 
     public void bindUI(View view){
         // ----------Enlazamos objetos del View-------------
-        tvTemperatura = view.findViewById(R.id.txt_temp);
-        tvHumedad = view.findViewById(R.id.txt_humedad);
-        pbTemperatura = view.findViewById(R.id.progress_bar_temp);
-        luzPrincipal = view.findViewById(R.id.btn_luz_principal);
-        luzColor = view.findViewById(R.id.btnColorLuz);
-        seekBarPersianas = view.findViewById(R.id.seekbarPersiana);
-        puerta = view.findViewById(R.id.switchPuerta);
+         btnEstanteUno = view.findViewById(R.id.btn_estante1);
+         btnEstanteDos = view.findViewById(R.id.btn_estante2);
+         btnEstanteTres = view.findViewById(R.id.btn_estante3);
+         btnEstanteCuatro = view.findViewById(R.id.btn_estante4);
+         btnPerchero = view.findViewById(R.id.btn_perchero);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_control_basico, container, false);
+        View view = inflater.inflate(R.layout.fragment_closet, container, false);
         bindUI(view);
 
         // ---------Inicializamos el SmartRoomDriver----------
         driver = new SmartRoomDriver(0,"ESP8266","ing3ns2560","",new ControlPrimario(),new Closet(),new Sonido());
         gson = new GsonBuilder().create();
-        ColorLuz = 0;
 
-        //----------- Eventos de objetos del View -----------------
-        luzPrincipal.setOnClickListener(new View.OnClickListener() {
+        btnEstanteUno.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                driver.getControlPrimario().setLuzPrincipal(true);
-                if(servicesConnection)socketServiceProvider.emitLpChange(gson.toJson(driver));
+            public void onClick(View view) {
+                dialogAlertColor(0, btnEstanteUno);
             }
         });
 
-        luzColor.setBackgroundColor(Color.WHITE);
-        luzColor.setOnClickListener(new View.OnClickListener() {
+        btnEstanteDos.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                dialogAlertColor();
+            public void onClick(View view) {
+                dialogAlertColor(1, btnEstanteDos);
             }
         });
 
-        seekBarPersianas.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        btnEstanteTres.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progressSeekBar = progress;
-                if(!sendSeekBar) {
-                    sendSeekBar =true;
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            driver.getControlPrimario().setPersiana(progressSeekBar);
-                            if(servicesConnection)socketServiceProvider.emitPersinasChange(gson.toJson(driver));
-                            sendSeekBar = false;
-                        }
-                    }, 500);
-                }
-
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                driver.getControlPrimario().setPersiana(progressSeekBar);
-                if(servicesConnection)socketServiceProvider.emitPersinasChange(gson.toJson(driver));
+            public void onClick(View view) {
+                dialogAlertColor(2, btnEstanteTres);
             }
         });
 
-        puerta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnEstanteCuatro.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                driver.getControlPrimario().setPuerta(isChecked);
-                socketServiceProvider.emitPuertaChange(gson.toJson(driver));
+            public void onClick(View view) {
+                dialogAlertColor(3, btnEstanteCuatro);
             }
         });
+
+        btnPerchero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogAlertColor(4, btnPerchero);
+            }
+        });
+
 
         return view;
     }
@@ -213,7 +180,6 @@ public class FragmentControlBasico extends Fragment {
         getActivity().unbindService(mConnection);
     }
 
-
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -234,9 +200,8 @@ public class FragmentControlBasico extends Fragment {
 
     //--------------------Funciones Auxiliares ---------------------
     //--------------------------------------------------------------
-
     //--------------------------DIALOG ALERT Seleccionar Color ---------------------
-    public void dialogAlertColor(){
+    public void dialogAlertColor(final int pos, final ImageButton imageButton){
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.CustomDialog);
         Context context = getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
@@ -249,8 +214,8 @@ public class FragmentControlBasico extends Fragment {
         Button btnAceptar = vista.findViewById(R.id.boton_aceptar_no_gps_pedido);
         final ImageView colorActual = vista.findViewById(R.id.colorActual);
         final HSLColorPicker colorPicker = vista.findViewById(R.id.colorPicker);
-        colorPicker.setColor(ColorLuz);
-        colorActual.getBackground().setColorFilter(ColorLuz, PorterDuff.Mode.MULTIPLY);
+        colorPicker.setColor(ColorLuz[pos]);
+        colorActual.getBackground().setColorFilter(ColorLuz[pos], PorterDuff.Mode.MULTIPLY);
 
         colorPicker.setColorSelectionListener(new SimpleColorSelectionListener() {
             @Override
@@ -264,8 +229,7 @@ public class FragmentControlBasico extends Fragment {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                driver.getControlPrimario().setLuzSecundaria(color);
-                                if(servicesConnection)socketServiceProvider.emitLsChange(gson.toJson(driver));
+                                setColorEstante(pos,color,false);
                                 sendColor = false;
                             }
                         }, 200);
@@ -277,8 +241,8 @@ public class FragmentControlBasico extends Fragment {
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ColorLuz = driver.getControlPrimario().getLuzSecundaria();
-                luzColor.setBackgroundColor(ColorLuz);
+                ColorLuz[pos] = getColorEstante(pos);
+                imageButton.setBackgroundColor(ColorLuz[pos]);
                 alertDialog.dismiss();
             }
         });
@@ -286,8 +250,8 @@ public class FragmentControlBasico extends Fragment {
         colorActual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ColorLuz = driver.getControlPrimario().getLuzSecundaria();
-                luzColor.setBackgroundColor(ColorLuz);
+                ColorLuz[pos] = getColorEstante(pos);
+                imageButton.setBackgroundColor(ColorLuz[pos]);
                 alertDialog.dismiss();
             }
         });
@@ -295,11 +259,88 @@ public class FragmentControlBasico extends Fragment {
         alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                driver.getControlPrimario().setLuzSecundaria(ColorLuz);
-                if(servicesConnection)socketServiceProvider.emitLsOK(gson.toJson(driver));
+                setColorEstante(pos,ColorLuz[pos],true);
+
             }
         });
 
+    }
+
+    int getColorEstante(int pos){
+        int color=0;
+        switch (pos){
+            case 0:
+                color = driver.getCloset().getEstanteUno();
+                break;
+
+            case 1:
+                color = driver.getCloset().getEstanteDos();
+                break;
+
+            case 2:
+                color = driver.getCloset().getEstanteTres();
+                break;
+
+            case 3:
+                color = driver.getCloset().getEstanteCuatro();
+                break;
+
+            case 4:
+                color = driver.getCloset().getPerchero();
+                break;
+            default:
+                break;
+        }
+        return color;
+    }
+
+    void setColorEstante(int pos, int color, boolean ok){
+        switch (pos){
+            case 0:
+                driver.getCloset().setEstanteUno(color);
+                if(ok) {
+                    if(servicesConnection)socketServiceProvider.emitEstanteUnoOK(gson.toJson(driver));
+                }else {
+                    if (servicesConnection) socketServiceProvider.emitEstanteUnoChange(gson.toJson(driver));
+                }
+                break;
+
+            case 1:
+                driver.getCloset().setEstanteDos(color);
+                if(ok) {
+                    if(servicesConnection)socketServiceProvider.emitEstanteDosOK(gson.toJson(driver));
+                }else {
+                    if (servicesConnection) socketServiceProvider.emitEstanteDosChange(gson.toJson(driver));
+                }
+                break;
+
+            case 2:
+                driver.getCloset().setEstanteTres(color);
+                if(ok) {
+                    if(servicesConnection)socketServiceProvider.emitEstanteTresOK(gson.toJson(driver));
+                }else {
+                    if (servicesConnection) socketServiceProvider.emitEstanteTresChange(gson.toJson(driver));
+                }
+                break;
+
+            case 3:
+                driver.getCloset().setEstanteCuatro(color);
+                if(ok) {
+                    if(servicesConnection)socketServiceProvider.emitEstanteCuatroOK(gson.toJson(driver));
+                }else {
+                    if (servicesConnection) socketServiceProvider.emitEstanteCuatroChange(gson.toJson(driver));
+                }
+                break;
+
+            case 4:
+                driver.getCloset().setPerchero(color);
+                if(ok) {
+                    if(servicesConnection)socketServiceProvider.emitPercheroOK(gson.toJson(driver));
+                }else {
+                    if (servicesConnection) socketServiceProvider.emitPercheroChange(gson.toJson(driver));
+                }
+                break;
+        }
     }
 }
 

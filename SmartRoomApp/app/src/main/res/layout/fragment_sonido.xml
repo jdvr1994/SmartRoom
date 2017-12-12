@@ -258,19 +258,6 @@
 
         </LinearLayout>
 
-        <SeekBar
-            android:id="@+id/seekbarVolumen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="130dp"
-            android:layout_below="@id/layout_navegacion"
-            android:layout_alignLeft="@id/layout_navegacion"
-            android:layout_alignRight="@id/layout_volumen"
-            android:progressDrawable="@drawable/seekbar_style"
-            android:thumb="@drawable/progressbar_thumb"
-            android:progress="15"
-            android:max="30"/>
-        
     </RelativeLayout>
 
 </RelativeLayout>
